@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -8,6 +9,7 @@ public class Movement : MonoBehaviour
 
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
+    bool flipRight = true;
 
     void Start()
     {
@@ -17,9 +19,30 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float speedX = Input.GetAxisRaw("Horizontal");
-        float speedY = Input.GetAxisRaw("Vertical");
+        float inputHorizontal = Input.GetAxisRaw("Horizontal");
+        float inputVertical = Input.GetAxisRaw("Vertical");
 
-        rb.velocity = new Vector2(speedX * moveSpeed, speedY * moveSpeed);
+        rb.velocity = new Vector2(inputHorizontal * moveSpeed, inputVertical * moveSpeed);
+
+        // Flip character
+        if (inputHorizontal > 0 && !flipRight)
+        {
+            FlipPlayer();
+        }
+
+        if (inputHorizontal < 0 && flipRight)
+        {
+            FlipPlayer();
+        }
+    }
+
+    void FlipPlayer()
+    {
+        Vector3 currentscale = gameObject.transform.localScale;
+        currentscale.x *= -1;
+        gameObject.transform.localScale = currentscale;
+
+        flipRight = !flipRight;
     }
 }
+
