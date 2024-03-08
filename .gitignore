@@ -11,7 +11,10 @@
 /[Uu]ser[Ss]ettings/
 
 # Game Asset
-Assets
+Assets/*
+!Assets/Script
+
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
