@@ -6,7 +6,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    private float inputHorizontal, inputVertical;
+    private Animator animator;
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     bool flipRight = true;
@@ -14,13 +15,14 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float inputHorizontal = Input.GetAxisRaw("Horizontal");
-        float inputVertical = Input.GetAxisRaw("Vertical");
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+        inputVertical = Input.GetAxisRaw("Vertical");
 
         rb.velocity = new Vector2(inputHorizontal * moveSpeed, inputVertical * moveSpeed);
 
@@ -34,6 +36,21 @@ public class Movement : MonoBehaviour
         {
             FlipPlayer();
         }
+
+        AnimationUpdate();
+    }
+
+    void AnimationUpdate()
+    {
+        if (inputHorizontal != 0f || inputVertical != 0f)
+        {
+            animator.SetBool("walking", true);
+        }
+        else
+        {
+            animator.SetBool("walking", false);
+        }
+
     }
 
     void FlipPlayer()
