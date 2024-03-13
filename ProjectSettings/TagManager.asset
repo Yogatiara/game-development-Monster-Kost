@@ -41,8 +41,11 @@ TagManager:
   - name: Background
     uniqueID: 1290293485
     locked: 0
-  - name: Tilemap
-    uniqueID: 2185436807
+  - name: Wall
+    uniqueID: 423781025
+    locked: 0
+  - name: Floor
+    uniqueID: 3577531425
     locked: 0
   - name: Property
     uniqueID: 2172207971

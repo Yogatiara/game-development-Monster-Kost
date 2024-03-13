@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     private Animator animator;
+    public ParticleSystem dashEffect;
 
     private float inputHorizontal, inputVertical;
     public float moveSpeed = 5f;
@@ -15,7 +17,7 @@ public class Movement : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    public float dashingPower = 24f;
+    public float dashingPower = 25f;
     private float dashingTime = 0.2f;
     private float dashingCoolDown = 0.1f;
     private TrailRenderer tr;
@@ -46,6 +48,8 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
+            // animator.SetBool("dashing", false);
+
         }
 
         // Flip character
@@ -65,28 +69,63 @@ public class Movement : MonoBehaviour
 
     void AnimationUpdate()
     {
+
         if (inputHorizontal != 0f || inputVertical != 0f)
         {
             animator.SetBool("walking", true);
+
+
+
         }
         else
         {
             animator.SetBool("walking", false);
+
         }
+
+
+
+
+
+        // if (Input.GetKeyDown(KeyCode.LeftShift))
+        // {
+
+        //     yield return new WaitForSeconds(30f);
+
+        // }
+
+        // Thread.Sleep((int)dashingTime);
+        // animator.SetBool("dashing", false);
 
     }
 
     void FlipPlayer()
     {
+
+
         Vector3 currentscale = gameObject.transform.localScale;
         currentscale.x *= -1;
         gameObject.transform.localScale = currentscale;
 
         flipRight = !flipRight;
+
+        var effectScale = dashEffect.transform.localScale;
+        effectScale.x *= -1;
+        dashEffect.transform.localScale = effectScale;
+
     }
+
+    void CreateEffect()
+    {
+        dashEffect.Play();
+
+    }
+
+
 
     IEnumerator Dash()
     {
+
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
@@ -96,12 +135,17 @@ public class Movement : MonoBehaviour
 
         // rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         tr.emitting = true;
+        dashEffect.Play();
         yield return new WaitForSeconds(dashingTime);
+
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
+
         yield return new WaitForSeconds(dashingCoolDown);
+
         canDash = true;
+
     }
 }
 
