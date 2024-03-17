@@ -10,10 +10,14 @@ public class Movement : MonoBehaviour
     private Animator animator;
     public ParticleSystem dashEffect;
 
+    public GameObject rotatePoint;
+    private Vector3 mousePos;
+
+    public bool flipRight = true;
+
     private float inputHorizontal, inputVertical;
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
-    bool flipRight = true;
 
     private bool canDash = true;
     private bool isDashing;
@@ -42,6 +46,7 @@ public class Movement : MonoBehaviour
         }
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         rb.velocity = new Vector2(inputHorizontal * moveSpeed, inputVertical * moveSpeed);
 
@@ -53,18 +58,20 @@ public class Movement : MonoBehaviour
         }
 
         // Flip character
-        if (inputHorizontal > 0 && !flipRight)
+        if (mousePos.x > transform.position.x && !flipRight)
         {
             FlipPlayer();
         }
 
-        if (inputHorizontal < 0 && flipRight)
+        if (mousePos.x < transform.position.x && flipRight)
         {
             FlipPlayer();
         }
 
 
         AnimationUpdate();
+
+
     }
 
     void AnimationUpdate()
@@ -74,18 +81,13 @@ public class Movement : MonoBehaviour
         {
             animator.SetBool("walking", true);
 
-
-
         }
         else
         {
+
             animator.SetBool("walking", false);
 
         }
-
-
-
-
 
         // if (Input.GetKeyDown(KeyCode.LeftShift))
         // {
@@ -99,29 +101,28 @@ public class Movement : MonoBehaviour
 
     }
 
-    void FlipPlayer()
+    public void FlipPlayer()
     {
+        // Vector3 currentscale = transform.localScale;
+        // currentscale.x *= -1;
+        // transform.localScale = currentscale;
 
+        transform.Rotate(0f, 180f, 0f);
 
-        Vector3 currentscale = gameObject.transform.localScale;
-        currentscale.x *= -1;
-        gameObject.transform.localScale = currentscale;
+        // var effectScale = dashEffect.transform.localScale;
+        // effectScale.x *= -1;
+        // dashEffect.transform.localScale = effectScale;
+
+        rotatePoint = transform.Find("Rotate Point").gameObject;
+        Vector3 rotateScale = rotatePoint.transform.localScale;
+        rotateScale.y *= -1;
+        rotatePoint.transform.localScale = rotateScale;
 
         flipRight = !flipRight;
 
-        var effectScale = dashEffect.transform.localScale;
-        effectScale.x *= -1;
-        dashEffect.transform.localScale = effectScale;
+
 
     }
-
-    void CreateEffect()
-    {
-        dashEffect.Play();
-
-    }
-
-
 
     IEnumerator Dash()
     {
