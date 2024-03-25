@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     public ParticleSystem dashEffect;
 
     public GameObject rotatePoint;
-    private Vector3 mousePos;
+    public Vector3 mousePos;
 
     public bool flipRight = true;
 
@@ -106,6 +106,7 @@ public class Movement : MonoBehaviour
         // Vector3 currentscale = transform.localScale;
         // currentscale.x *= -1;
         // transform.localScale = currentscale;
+        flipRight = !flipRight;
 
         transform.Rotate(0f, 180f, 0f);
 
@@ -118,7 +119,6 @@ public class Movement : MonoBehaviour
         rotateScale.y *= -1;
         rotatePoint.transform.localScale = rotateScale;
 
-        flipRight = !flipRight;
 
 
 
