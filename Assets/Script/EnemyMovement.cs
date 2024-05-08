@@ -41,7 +41,15 @@ public class EnemyMovement : MonoBehaviour
       {
         if (movement.playerDeath)
         {
-          speed = 2.5f;
+          if (isAnimatingDeath)
+          {
+            speed = 0f;
+          }
+          else
+          {
+            speed = 2.5f;
+
+          }
           target = GameObject.FindGameObjectWithTag("Respawn").transform;
         }
 
@@ -55,27 +63,7 @@ public class EnemyMovement : MonoBehaviour
 
   }
 
-  void KeepOfTarget()
-  {
 
-    Vector3 direction = (target.position - transform.position).normalized;
-
-    if (direction.x > 0)
-    {
-
-      transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-
-    }
-    else
-    {
-
-      transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-    }
-
-    transform.position = Vector3.MoveTowards(transform.position, target.transform.position + target.transform.position, speed * Time.deltaTime);
-
-  }
   void FollowTarget()
   {
 
@@ -108,7 +96,6 @@ public class EnemyMovement : MonoBehaviour
       speed = 0;
       isAnimatingDeath = true;
       animator.SetBool("isDead", true);
-      // Jalankan fungsi untuk menghancurkan player setelah durasi animasi kematian selesai
       StartCoroutine(DestroyAfterAnimation());
     }
 

@@ -25,7 +25,8 @@ public class Bullet : MonoBehaviour
 
   private Sprite bulletFly, bulletIdle;
 
-  private Shooting shootingReference;
+  public Shooting shooting;
+
 
 
   void Start()
@@ -74,20 +75,14 @@ public class Bullet : MonoBehaviour
 
   private void OnCollisionEnter2D(Collision2D col)
   {
-    if (col.gameObject.CompareTag("Player"))
-    {
-      Destroy(gameObject);
-    }
-    else
-    {
-      // Jika menabrak objek lain, lakukan pemantulan
-      var speed = lastVelocity.magnitude;
-      var firstContact = col.contacts[0];
-      Vector2 direction = Vector2.Reflect(lastVelocity.normalized, firstContact.normal);
-      rb.velocity = direction * speed;
-      float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-      transform.rotation = Quaternion.Euler(0, 0, angle + 180);
-    }
+
+    var speed = lastVelocity.magnitude;
+    var firstContact = col.contacts[0];
+    Vector2 direction = Vector2.Reflect(lastVelocity.normalized, firstContact.normal);
+    rb.velocity = direction * speed;
+    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    transform.rotation = Quaternion.Euler(0, 0, angle + 180);
+
   }
 
   private void StopBullet()
@@ -103,6 +98,10 @@ public class Bullet : MonoBehaviour
     if (other.tag == "Player")
     {
       Destroy(gameObject);
+      shooting = FindObjectOfType<Shooting>();
+
+      shooting.Shoot(true);
+
       // shootingReference.canFire = false;
     }
 

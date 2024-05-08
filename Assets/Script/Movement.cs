@@ -4,6 +4,8 @@ using System.Threading;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+// using Shooting;
+
 
 public class Movement : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class Movement : MonoBehaviour
   private float dashingTime = 0.2f;
   private float dashingCoolDown = 0.1f;
   private TrailRenderer tr;
+
+  public Shooting shoot, shooting;
 
 
 
@@ -163,7 +167,7 @@ public class Movement : MonoBehaviour
     if (other.gameObject.CompareTag("Wolf") && !isAnimatingDeath)
     {
       moveSpeed = 0;
-      rb.mass = 10000000000000000;
+      rb.mass = 100;
       isAnimatingDeath = true;
       if (isAnimatingDeath)
       {
@@ -173,6 +177,9 @@ public class Movement : MonoBehaviour
       }
       StartCoroutine(DestroyAfterAnimation());
     }
+
+
+
   }
 
   private IEnumerator DestroyAfterAnimation()
@@ -192,6 +199,8 @@ public class Movement : MonoBehaviour
     SceneManager.LoadSceneAsync(2);
 
   }
+
+
 }
 
 

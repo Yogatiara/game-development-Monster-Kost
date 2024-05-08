@@ -10,16 +10,32 @@ public class Shooting : MonoBehaviour
   public Transform weapons;
   private GameObject currentBullet;
   public bool canFire = true;
+
   private float timer;
   public float timeBetweenFiring;
 
+
+  public LayerMask wallLayer;
+
+
+  public void Shoot(bool canShoot)
+  {
+
+    canFire = canShoot;
+  }
+  // }
   void Start()
   {
     mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
   }
 
+
+
   void Update()
   {
+    // Debug.Log(canFire);
+    // Debug.Log(a);
+
     movementReference.mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
     Vector3 rotation = movementReference.mousePos - transform.position;
 
@@ -32,18 +48,26 @@ public class Shooting : MonoBehaviour
       timer += Time.deltaTime;
       if (timer > timeBetweenFiring)
       {
-        canFire = true;
+        // canFire = true;
         timer = 0;
       }
     }
 
+    // Shoot(canFire);
+
+    // Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+
+    // Debug.Log(mousePos);
     if (Input.GetMouseButton(0) && canFire)
     {
       canFire = false;
       ShootBullet();
-      // currentBullet = Instantiate(bulletPrefab, weapons.position, Quaternion.identity);
     }
+
   }
+
+
+
 
   void ShootBullet()
   {
@@ -51,24 +75,8 @@ public class Shooting : MonoBehaviour
     {
       currentBullet = Instantiate(bulletPrefab, weapons.position, Quaternion.identity);
     }
-    // if (canFire)
-    // {
 
-
-    // }
-    // else if (!canFire)
-    // {
-    //     if (currentBullet)
-    //     {
-    //         currentBullet = Instantiate(bulletPrefab, weapons.position, Quaternion.identity);
-    //     }
-    // }
 
   }
 
-  // Metode ini dapat dipanggil dari skrip peluru ketika peluru dihancurkan atau mencapai tujuan
-  // public void BulletDestroyed()
-  // {
-  //     currentBullet = null;
-  // }
 }
