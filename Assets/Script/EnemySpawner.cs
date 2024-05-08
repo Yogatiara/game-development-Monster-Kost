@@ -11,6 +11,8 @@ public class EnemySpawner : MonoBehaviour
 
     public bool canSpawn = true;
 
+    public int maxEnemies = 5;
+
     void Start()
     {
         StartCoroutine(SpawnEnemy());
@@ -20,15 +22,22 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         WaitForSeconds wait = new WaitForSeconds(spawnRate);
-
+        int manyEnemies = 0;
         while (canSpawn)
         {
+            manyEnemies += 1;
             yield return wait;
             int random = Random.Range(0, enemyPrefabs.Length);
             GameObject enemyToSpawn = enemyPrefabs[random];
 
 
+
             Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
+
+            if (manyEnemies == maxEnemies)
+            {
+                break;
+            }
         }
     }
 }

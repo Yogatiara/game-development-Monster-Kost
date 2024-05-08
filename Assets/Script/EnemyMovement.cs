@@ -17,6 +17,10 @@ public class EnemyMovement : MonoBehaviour
 
   public Movement movement;
 
+  private EnemySpawner enemySpawner;
+
+  public static int enemies = 0;
+
   void Start()
   {
     animator = GetComponent<Animator>();
@@ -89,15 +93,35 @@ public class EnemyMovement : MonoBehaviour
   }
 
 
-  private void OnCollisionEnter2D(Collision2D other)
+  void OnCollisionEnter2D(Collision2D other)
   {
     if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("BulletIdle") && !isAnimatingDeath)
     {
+      enemySpawner = FindObjectOfType<EnemySpawner>();
+
+
+      enemies += 1;
+      Debug.Log(enemies);
+      if (enemies >= enemySpawner.maxEnemies)
+      {
+
+        StartCoroutine(ShowWinnerPopUp());
+      }
+
       speed = 0;
       isAnimatingDeath = true;
       animator.SetBool("isDead", true);
       StartCoroutine(DestroyAfterAnimation());
     }
+
+
+  }
+  private IEnumerator ShowWinnerPopUp()
+  {
+
+    yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 0.3f);
+
+    SceneManager.LoadSceneAsync(2);
 
 
   }
@@ -107,12 +131,11 @@ public class EnemyMovement : MonoBehaviour
     float deathAnimationDuration = animator.GetCurrentAnimatorStateInfo(0).length + 0.3f;
 
     yield return new WaitForSeconds(deathAnimationDuration);
-    // Hancurkan player setelah animasi selesai
     Destroy(gameObject);
-    // gameObject.SetActive(false);
-    // GameOverMenu();
+
 
   }
+
 
 
 }
