@@ -12,10 +12,17 @@ public class EnemySpawner : MonoBehaviour
     public bool canSpawn = true;
 
     public int maxEnemies = 5;
+    public GameObject enemyToSpawn;
 
     void Start()
     {
         StartCoroutine(SpawnEnemy());
+    }
+
+    public void Spawn(bool canSpawning)
+    {
+
+        canSpawn = canSpawning;
     }
 
     // Update is called once per frame
@@ -26,18 +33,18 @@ public class EnemySpawner : MonoBehaviour
         while (canSpawn)
         {
             manyEnemies += 1;
+            if (manyEnemies == maxEnemies)
+            {
+                enemyToSpawn = null;
+                break;
+            }
             yield return wait;
             int random = Random.Range(0, enemyPrefabs.Length);
-            GameObject enemyToSpawn = enemyPrefabs[random];
-
+            enemyToSpawn = enemyPrefabs[random];
 
 
             Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
 
-            if (manyEnemies == maxEnemies)
-            {
-                break;
-            }
         }
     }
 }

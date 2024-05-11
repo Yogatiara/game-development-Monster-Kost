@@ -21,8 +21,18 @@ public class EnemyMovement : MonoBehaviour
 
   public static int enemies = 0;
 
+  public GameManagerScript gameManager;
+
   void Start()
   {
+    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+    // Memeriksa apakah objek player ditemukan
+    if (playerObject != null)
+    {
+      // Jika ditemukan, ambil komponen transform
+      target = playerObject.transform;
+    }
     animator = GetComponent<Animator>();
 
     // rb = GetComponent<Rigidbody2D>();
@@ -31,12 +41,13 @@ public class EnemyMovement : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
     if (!target)
     {
-      target = GameObject.FindGameObjectWithTag("Player").transform;
+
+      Destroy(gameObject);
 
     }
-
     else
     {
       movement = FindObjectOfType<Movement>();
@@ -45,6 +56,9 @@ public class EnemyMovement : MonoBehaviour
       {
         if (movement.playerDeath)
         {
+          enemySpawner = FindObjectOfType<EnemySpawner>();
+          enemySpawner.Spawn(false);
+
           if (isAnimatingDeath)
           {
             speed = 0f;
@@ -54,12 +68,15 @@ public class EnemyMovement : MonoBehaviour
             speed = 2.5f;
 
           }
+
+
           target = GameObject.FindGameObjectWithTag("Respawn").transform;
         }
 
       }
 
       FollowTarget();
+
     }
 
     // Debug.Log(movement.playerDeath);
@@ -100,9 +117,8 @@ public class EnemyMovement : MonoBehaviour
       enemySpawner = FindObjectOfType<EnemySpawner>();
 
 
-      enemies += 1;
-      Debug.Log(enemies);
-      if (enemies >= enemySpawner.maxEnemies)
+
+      if (!enemySpawner.enemyToSpawn)
       {
 
         StartCoroutine(ShowWinnerPopUp());
@@ -120,8 +136,9 @@ public class EnemyMovement : MonoBehaviour
   {
 
     yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 0.3f);
+    gameManager = FindObjectOfType<GameManagerScript>();
 
-    SceneManager.LoadSceneAsync(2);
+    gameManager.PopUpwinTheGame();
 
 
   }

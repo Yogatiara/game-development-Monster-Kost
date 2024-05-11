@@ -48,16 +48,11 @@ public class Shooting : MonoBehaviour
       timer += Time.deltaTime;
       if (timer > timeBetweenFiring)
       {
-        // canFire = true;
         timer = 0;
       }
     }
 
-    // Shoot(canFire);
 
-    // Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
-    // Debug.Log(mousePos);
     if (Input.GetMouseButton(0) && canFire)
     {
       canFire = false;

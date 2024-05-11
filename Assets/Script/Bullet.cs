@@ -45,13 +45,13 @@ public class Bullet : MonoBehaviour
     anim = GetComponent<Animator>();
     colider = GetComponent<CircleCollider2D>();
 
-    bulletFly = Resources.Load<Sprite>("eye fire1");
+    // bulletFly = Resources.Load<Sprite>("eye fire1");
     bulletFlyAnimator = Resources.Load<RuntimeAnimatorController>("Bullet");
-    bulletIdle = Resources.Load<Sprite>("EyeBall");
+    // bulletIdle = Resources.Load<Sprite>("Bullet Idle");
     bulletIdleAnimator = Resources.Load<RuntimeAnimatorController>("Bullet Idle");
 
-    rend.sprite = bulletFly;
-    anim.runtimeAnimatorController = bulletFlyAnimator;
+    // rend.sprite = bulletFly;
+    // anim.runtimeAnimatorController = bulletFlyAnimator;
 
 
 
@@ -65,8 +65,8 @@ public class Bullet : MonoBehaviour
     if (traveledDistance >= maxDistance)
     {
       StopBullet();
-      rend.sprite = bulletIdle;
       anim.runtimeAnimatorController = bulletIdleAnimator;
+      rend.sprite = bulletIdle;
 
       transform.rotation = Quaternion.Euler(0, 0, 0);
 

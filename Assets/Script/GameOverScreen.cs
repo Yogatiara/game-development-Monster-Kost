@@ -7,10 +7,10 @@ public class GameOverScreen : MonoBehaviour
 {
 	// Start is called before the first frame update
 
-	public EnemyMovement enemyMovement;
+	// public EnemyMovement enemyMovement;
+
 	public void PlayGame()
 	{
-		enemyMovement = FindObjectOfType<EnemyMovement>();
 		EnemyMovement.enemies = 0;
 
 		SceneManager.LoadSceneAsync(1);
@@ -18,6 +18,8 @@ public class GameOverScreen : MonoBehaviour
 
 	public void BackToMenu()
 	{
+		EnemyMovement.enemies = 0;
+
 		SceneManager.LoadSceneAsync(0);
 	}
 

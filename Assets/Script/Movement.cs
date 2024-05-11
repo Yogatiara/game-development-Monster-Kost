@@ -33,10 +33,7 @@ public class Movement : MonoBehaviour
   private TrailRenderer tr;
 
   public Shooting shoot, shooting;
-
-
-
-
+  public GameManagerScript gameManager;
 
 
   void Start()
@@ -190,17 +187,10 @@ public class Movement : MonoBehaviour
     // Destroy(gameObject);
     // EnemyMovement()
     gameObject.SetActive(false);
-    GameOverMenu();
+    gameManager = FindObjectOfType<GameManagerScript>();
+
+    gameManager.GameOverPopup();
   }
-
-  public void GameOverMenu()
-  {
-
-    SceneManager.LoadSceneAsync(2);
-
-  }
-
-
 }
 
 
