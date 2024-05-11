@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
   public Transform target;
   public float speed = 3f;
   // private Rigidbody2D rb;
-  private bool isAnimatingDeath = false;
+  public static bool isAnimatingDeath = false;
 
   public Movement movement;
 
@@ -71,6 +72,7 @@ public class EnemyMovement : MonoBehaviour
 
 
           target = GameObject.FindGameObjectWithTag("Respawn").transform;
+          StartCoroutine(DestroyObject());
         }
 
       }
@@ -116,18 +118,18 @@ public class EnemyMovement : MonoBehaviour
     {
       enemySpawner = FindObjectOfType<EnemySpawner>();
 
+      speed = 0;
+      isAnimatingDeath = true;
+      animator.SetBool("isDead", isAnimatingDeath);
+      StartCoroutine(DestroyAfterAnimation());
 
 
-      if (!enemySpawner.enemyToSpawn)
+      if (EnemySpawner.maxEnemies == 1)
       {
 
         StartCoroutine(ShowWinnerPopUp());
       }
 
-      speed = 0;
-      isAnimatingDeath = true;
-      animator.SetBool("isDead", true);
-      StartCoroutine(DestroyAfterAnimation());
     }
 
 
@@ -139,6 +141,7 @@ public class EnemyMovement : MonoBehaviour
     gameManager = FindObjectOfType<GameManagerScript>();
 
     gameManager.PopUpwinTheGame();
+
 
 
   }
@@ -153,6 +156,12 @@ public class EnemyMovement : MonoBehaviour
 
   }
 
+  private IEnumerator DestroyObject()
+  {
+    yield return new WaitForSeconds(0.5f);
+    Destroy(gameObject);
+
+  }
 
 
 }

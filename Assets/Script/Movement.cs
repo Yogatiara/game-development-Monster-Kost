@@ -163,6 +163,9 @@ public class Movement : MonoBehaviour
 
     if (other.gameObject.CompareTag("Wolf") && !isAnimatingDeath)
     {
+      shooting = FindObjectOfType<Shooting>();
+
+      shooting.Shoot(false);
       moveSpeed = 0;
       rb.mass = 100;
       isAnimatingDeath = true;
@@ -186,6 +189,7 @@ public class Movement : MonoBehaviour
     yield return new WaitForSeconds(deathAnimationDuration);
     // Destroy(gameObject);
     // EnemyMovement()
+
     gameObject.SetActive(false);
     gameManager = FindObjectOfType<GameManagerScript>();
 

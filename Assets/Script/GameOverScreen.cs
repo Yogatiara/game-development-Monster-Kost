@@ -7,18 +7,27 @@ public class GameOverScreen : MonoBehaviour
 {
 	// Start is called before the first frame update
 
-	// public EnemyMovement enemyMovement;
+	public EnemySpawner enemySpawner;
 
+	void Start()
+	{
+		enemySpawner = FindObjectOfType<EnemySpawner>();
+	}
 	public void PlayGame()
 	{
-		EnemyMovement.enemies = 0;
+		EnemySpawner.manyEnemies = 0;
+		EnemyMovement.isAnimatingDeath = false;
+		// EnemySpawner.maxEnemies = enemySpawner.enemies;
+
 
 		SceneManager.LoadSceneAsync(1);
 	}
 
 	public void BackToMenu()
 	{
-		EnemyMovement.enemies = 0;
+		EnemySpawner.manyEnemies = 0;
+
+		// EnemySpawner.maxEnemies = enemySpawner.enemies;
 
 		SceneManager.LoadSceneAsync(0);
 	}

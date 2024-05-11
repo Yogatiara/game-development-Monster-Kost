@@ -10,12 +10,18 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemyPrefabs;
 
     public bool canSpawn = true;
+    public int enemies = 5;
+    public static int maxEnemies;
+    private GameObject enemyToSpawn;
 
-    public int maxEnemies = 5;
-    public GameObject enemyToSpawn;
+    public static int manyEnemies = 0;
+
+    private EnemyMovement enemyMovement;
+
 
     void Start()
     {
+        maxEnemies = enemies;
         StartCoroutine(SpawnEnemy());
     }
 
@@ -29,21 +35,37 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         WaitForSeconds wait = new WaitForSeconds(spawnRate);
-        int manyEnemies = 0;
         while (canSpawn)
         {
-            manyEnemies += 1;
-            if (manyEnemies == maxEnemies)
-            {
-                enemyToSpawn = null;
-                break;
-            }
             yield return wait;
             int random = Random.Range(0, enemyPrefabs.Length);
             enemyToSpawn = enemyPrefabs[random];
 
+            manyEnemies += 1;
 
             Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
+
+            enemyMovement = FindObjectOfType<EnemyMovement>();
+            Debug.Log(EnemyMovement.isAnimatingDeath);
+
+
+            // Debug.Log("Many Enemies" + " " + manyEnemies);
+
+            if (EnemyMovement.isAnimatingDeath)
+            {
+                maxEnemies--;
+                Debug.Log("Max Enemies" + " " + maxEnemies);
+
+            }
+            if (manyEnemies == enemies)
+            {
+                enemyToSpawn = null;
+                break;
+            }
+
+
+
+
 
         }
     }
