@@ -3,20 +3,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class GameOverScreen : MonoBehaviour
+public class PopUpScreen : MonoBehaviour
 {
 	// Start is called before the first frame update
 
 	public EnemySpawner enemySpawner;
+	public EnemyMovement enemyMovement;
+	public int enemies;
 
 	void Start()
 	{
 		enemySpawner = FindObjectOfType<EnemySpawner>();
+		enemySpawner = FindObjectOfType<EnemySpawner>();
+
 	}
 	public void PlayGame()
 	{
 		EnemySpawner.manyEnemies = 0;
 		EnemyMovement.isAnimatingDeath = false;
+		// EnemySpawner.maxEnemies = enemies;
 		// EnemySpawner.maxEnemies = enemySpawner.enemies;
 
 
@@ -26,6 +31,7 @@ public class GameOverScreen : MonoBehaviour
 	public void BackToMenu()
 	{
 		EnemySpawner.manyEnemies = 0;
+		EnemyMovement.isAnimatingDeath = false;
 
 		// EnemySpawner.maxEnemies = enemySpawner.enemies;
 

@@ -12,12 +12,13 @@ public class EnemySpawner : MonoBehaviour
     public bool canSpawn = true;
     public int enemies = 5;
     public static int maxEnemies;
-    private GameObject enemyToSpawn;
+    public GameObject enemyToSpawn;
 
     public static int manyEnemies = 0;
 
     private EnemyMovement enemyMovement;
 
+    public List<int> enemyList = new List<int>();
 
     void Start()
     {
@@ -42,21 +43,27 @@ public class EnemySpawner : MonoBehaviour
             enemyToSpawn = enemyPrefabs[random];
 
             manyEnemies += 1;
+            // string listString = string.Join(", ", enemyList);
+
+            // // Mencetak string yang berisi isi list ke konsol Unity
+            // Debug.Log("Isi List: " + listString);
 
             Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
 
-            enemyMovement = FindObjectOfType<EnemyMovement>();
-            Debug.Log(EnemyMovement.isAnimatingDeath);
+            // Debug.Log(EnemyMovement.isAnimatingDeath);
+            Debug.Log(enemyList.Count);
 
 
             // Debug.Log("Many Enemies" + " " + manyEnemies);
 
-            if (EnemyMovement.isAnimatingDeath)
-            {
-                maxEnemies--;
-                Debug.Log("Max Enemies" + " " + maxEnemies);
+            // if (EnemyMovement.isAnimatingDeath)
+            // {
+            //     maxEnemies--;
 
-            }
+
+            // }
+            enemyList.Add(manyEnemies);
+
             if (manyEnemies == enemies)
             {
                 enemyToSpawn = null;

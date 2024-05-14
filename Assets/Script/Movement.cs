@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // using Shooting;
@@ -19,6 +18,8 @@ public class Movement : MonoBehaviour
   public bool flipRight = true;
 
   private float inputHorizontal, inputVertical;
+
+  private bool inputShift;
   public float moveSpeed = 5f;
   public Rigidbody2D rb;
   private bool isAnimatingDeath = false;
@@ -35,7 +36,13 @@ public class Movement : MonoBehaviour
   public Shooting shoot, shooting;
   public GameManagerScript gameManager;
 
+  public bool movement = true;
 
+  public void Shoot(bool canMove)
+  {
+
+    movement = canMove;
+  }
   void Start()
   {
     // activeMoveSpeed = moveSpeed;
@@ -49,17 +56,24 @@ public class Movement : MonoBehaviour
   void Update()
   {
 
-    if (isDashing)
+
+
+
+    if (movement)
     {
-      return;
+      if (isDashing)
+      {
+        return;
+      }
+      inputHorizontal = Input.GetAxisRaw("Horizontal");
+      inputVertical = Input.GetAxisRaw("Vertical");
+      inputShift = Input.GetKeyDown(KeyCode.LeftShift);
+      mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-    inputHorizontal = Input.GetAxisRaw("Horizontal");
-    inputVertical = Input.GetAxisRaw("Vertical");
-    mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
     rb.velocity = new Vector2(inputHorizontal * moveSpeed, inputVertical * moveSpeed);
 
-    if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+    if (inputShift && canDash)
     {
       StartCoroutine(Dash());
       // animator.SetBool("dashing", false);
@@ -163,11 +177,12 @@ public class Movement : MonoBehaviour
 
     if (other.gameObject.CompareTag("Wolf") && !isAnimatingDeath)
     {
+      rb.mass = 5;
       shooting = FindObjectOfType<Shooting>();
-
+      movement = false;
+      canDash = false;
       shooting.Shoot(false);
       moveSpeed = 0;
-      rb.mass = 100;
       isAnimatingDeath = true;
       if (isAnimatingDeath)
       {

@@ -6,7 +6,7 @@ public class GameManagerScript : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public GameObject winTheGame, gameOver;
+    public GameObject winTheGame, gameOver, credit;
 
 
 
@@ -18,5 +18,10 @@ public class GameManagerScript : MonoBehaviour
     public void GameOverPopup()
     {
         gameOver.SetActive(true);
+    }
+
+    public void creditPopUp()
+    {
+        credit.SetActive(true);
     }
 }

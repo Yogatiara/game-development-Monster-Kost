@@ -24,8 +24,13 @@ public class EnemyMovement : MonoBehaviour
 
   public GameManagerScript gameManager;
 
+  private Collider2D circleCollider;
+
+
   void Start()
   {
+    circleCollider = GetComponent<CircleCollider2D>();
+
     GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
     // Memeriksa apakah objek player ditemukan
@@ -120,15 +125,25 @@ public class EnemyMovement : MonoBehaviour
 
       speed = 0;
       isAnimatingDeath = true;
+      circleCollider.enabled = false;
+
       animator.SetBool("isDead", isAnimatingDeath);
       StartCoroutine(DestroyAfterAnimation());
-
-
-      if (EnemySpawner.maxEnemies == 1)
+      // if (enemySpawner.enemyList.Count >= 1)
+      // {
+      enemySpawner.enemyList.RemoveAt(enemySpawner.enemyList.Count - 1);
+      // }
+      if (enemySpawner.enemyList.Count == 0 && enemySpawner.enemyToSpawn == null)
       {
 
         StartCoroutine(ShowWinnerPopUp());
       }
+
+
+      // if (EnemySpawner.maxEnemies == 1)
+      // {
+
+      // }
 
     }
 
@@ -151,6 +166,7 @@ public class EnemyMovement : MonoBehaviour
     float deathAnimationDuration = animator.GetCurrentAnimatorStateInfo(0).length + 0.3f;
 
     yield return new WaitForSeconds(deathAnimationDuration);
+
     Destroy(gameObject);
 
 
@@ -158,7 +174,7 @@ public class EnemyMovement : MonoBehaviour
 
   private IEnumerator DestroyObject()
   {
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(1f);
     Destroy(gameObject);
 
   }

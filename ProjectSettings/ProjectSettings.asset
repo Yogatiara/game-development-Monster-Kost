@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Bantai Monster
+  productName: The Monster Kost
   defaultCursor: {fileID: 2800000, guid: f60151ed451b0994bbc0d5dc7910f64c, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -770,11 +770,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 62052890-b453-4543-a312-5fef698fbc32
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: The Monster Kost
+  organizationId: yogatiarawiguna
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
