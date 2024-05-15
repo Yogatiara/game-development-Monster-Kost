@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
     colider = GetComponent<CircleCollider2D>();
 
     // bulletFly = Resources.Load<Sprite>("eye fire1");
-    bulletFlyAnimator = Resources.Load<RuntimeAnimatorController>("Bullet");
+    // bulletFlyAnimator = Resources.Load<RuntimeAnimatorController>("Bullet1");
     // bulletIdle = Resources.Load<Sprite>("Bullet Idle");
     bulletIdleAnimator = Resources.Load<RuntimeAnimatorController>("Bullet Idle");
 
@@ -74,6 +74,15 @@ public class Bullet : MonoBehaviour
 
   private void OnCollisionEnter2D(Collision2D col)
   {
+    if (col.gameObject.CompareTag("Player"))
+    {
+      Destroy(gameObject);
+      shooting = FindObjectOfType<Shooting>();
+
+      shooting.Shoot(true);
+
+      // shootingReference.canFire = false;
+    }
 
     var speed = lastVelocity.magnitude;
     var firstContact = col.contacts[0];

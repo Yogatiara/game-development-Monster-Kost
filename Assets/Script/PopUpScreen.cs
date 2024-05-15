@@ -21,11 +21,12 @@ public class PopUpScreen : MonoBehaviour
 	{
 		EnemySpawner.manyEnemies = 0;
 		EnemyMovement.isAnimatingDeath = false;
+		enemySpawner.enemyList.Clear();
 		// EnemySpawner.maxEnemies = enemies;
 		// EnemySpawner.maxEnemies = enemySpawner.enemies;
 
 
-		SceneManager.LoadSceneAsync(1);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	public void BackToMenu()
